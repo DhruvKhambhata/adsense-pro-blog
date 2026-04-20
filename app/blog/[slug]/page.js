@@ -1,8 +1,8 @@
-import { prisma } from '@/lib/database';
+import { prisma } from '@/lib/db-prod';
 import AdSlot from '@/components/AdSlot';
 import Sidebar from '@/components/Sidebar';
 import { notFound } from 'next/navigation';
-import { Clock, User, Calendar, ChevronRight } from 'lucide-react';
+import { Clock, User, Calendar } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -30,8 +30,8 @@ export default async function ArticlePage({ params }) {
     <div className="container" style={{ marginTop: '2rem' }}>
       {/* Breadcrumbs */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: '#64748b', marginBottom: '2rem' }}>
-        <a href="/">Home</a> <ChevronRight size={14} />
-        <a href={`/category/${post.category.slug}`}>{post.category.name}</a> <ChevronRight size={14} />
+        <a href="/">Home</a> <span style={{ opacity: 0.5 }}>&gt;</span>
+        <a href={`/category/${post.category.slug}`}>{post.category.name}</a> <span style={{ opacity: 0.5 }}>&gt;</span>
         <span style={{ color: '#0f172a', fontWeight: 600 }}>{post.title}</span>
       </nav>
 

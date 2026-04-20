@@ -1,12 +1,12 @@
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { prisma } from '@/lib/database';
+import { prisma } from '@/lib/db-prod';
 
 export async function generateMetadata() {
-  // const settings = await prisma.siteSettings.findFirst();
-  const siteName = 'FutureEdge Insights';
-  const description = 'Deep dives into AI, future tech, and digital evolution.';
+  const settings = await prisma.siteSettings.findFirst();
+  const siteName = settings?.siteName || 'FutureEdge Insights';
+  const description = settings?.description || 'Deep dives into AI, future tech, and digital evolution.';
   
   return {
     title: {

@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/database';
+import { prisma } from '@/lib/db-prod';
 import AdSlot from './AdSlot';
 import Link from 'next/link';
 

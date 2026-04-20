@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "title": "2026 Job Market: The AI Revolution",
+    "slug": "2026-job-market-ai-revolution",
+    "excerpt": "How AI is reshaping the career landscape in 2026.",
+    "content": "<p>Content about AI in 2026...</p>",
+    "category": { "name": "Technology", "slug": "tech" },
+    "author": { "name": "Editor", "avatar": "https://i.pravatar.cc/150?u=editor" },
+    "createdAt": "2026-04-20T10:00:00Z"
+  }
+]
