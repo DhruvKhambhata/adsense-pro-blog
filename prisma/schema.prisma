@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Post {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  content         String
+  excerpt         String
+  metaTitle       String?
+  metaDescription String?
+  featuredImage   String?
+  published       Boolean   @default(false)
+  readingTime     Int?
+  featured        Boolean   @default(false)
+  
+  author          Author    @relation(fields: [authorId], references: [id])
+  authorId        String
+  
+  category        Category  @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  
+  tags            Tag[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Author {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String
+  avatar    String?
+  twitter   String?
+  linkedin  String?
+  posts     Post[]
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  posts       Post[]
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id            String  @id @default("1")
+  siteName      String  @default("FutureEdge Insights")
+  description   String  @default("Your definitive guide to AI, future tech, and digital evolution.")
+  logo          String?
+  contactEmail  String?
+  adSenseId     String?
+  analyticsId   String?
+}
