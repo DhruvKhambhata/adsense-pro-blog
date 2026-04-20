@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/database';
 import AdSlot from '@/components/AdSlot';
 import Sidebar from '@/components/Sidebar';
 import { notFound } from 'next/navigation';

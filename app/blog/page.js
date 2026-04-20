@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/database';
 import PostCard from '@/components/PostCard';
 import AdSlot from '@/components/AdSlot';
 

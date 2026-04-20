@@ -1,7 +1,7 @@
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/database';
 
 export async function generateMetadata() {
   const settings = await prisma.siteSettings.findFirst();

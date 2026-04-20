@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/database';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
