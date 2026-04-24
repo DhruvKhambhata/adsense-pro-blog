@@ -1,4 +1,5 @@
-import { prisma } from '@/lib/db-prod';
+
+import { prisma } from '@/lib/prisma-db';
 import AdSlot from '@/components/AdSlot';
 import Sidebar from '@/components/Sidebar';
 import { notFound } from 'next/navigation';
@@ -57,9 +58,9 @@ export default async function ArticlePage({ params }) {
           <AdSlot type="banner" id="article-top" />
 
           <div className="prose" style={{ fontSize: '1.25rem', lineHeight: 1.8 }}>
-             {contentParts[0] && <div dangerouslySetInnerHTML={{ __html: contentParts[0] }} />}
-             <AdSlot type="in-article" id="article-mid" />
-             {contentParts[1] && <div dangerouslySetInnerHTML={{ __html: contentParts[1] }} />}
+            {contentParts[0] && <div dangerouslySetInnerHTML={{ __html: contentParts[0] }} />}
+            <AdSlot type="in-article" id="article-mid" />
+            {contentParts[1] && <div dangerouslySetInnerHTML={{ __html: contentParts[1] }} />}
           </div>
 
           <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid #f1f5f9' }}>

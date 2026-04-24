@@ -1,57 +1,70 @@
-import { prisma } from '@/lib/db-prod';
+import { prisma } from '@/lib/prisma-db';
 import PostCard from '@/components/PostCard';
 import AdSlot from '@/components/AdSlot';
-import Link from 'next/link';
+import HeroGrid from '@/components/HeroGrid';
+import Sidebar from '@/components/Sidebar';
+import { syncIntelligenceAction } from '@/lib/actions';
+import SyncButton from '@/components/SyncButton';
 
 export default async function Home() {
-  const featuredPost = await prisma.post.findFirst({
-    where: { featured: true },
-    include: { category: true },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  const recentPosts = await prisma.post.findMany({
-    where: { published: true, NOT: { id: featuredPost?.id } },
+  const allPosts = await prisma.post.findMany({
+    where: { published: true },
     include: { category: true },
     orderBy: { createdAt: 'desc' },
-    take: 6
+    take: 10
   });
 
+  const featuredPost = allPosts[0];
+  const secondaryPosts = allPosts.slice(1, 4);
+  const remainingPosts = allPosts.slice(4);
+
+  async function handleSync() {
+    'use server';
+    await syncIntelligenceAction();
+  }
+
   return (
-    <div className="container">
-      <AdSlot type="banner" id="top-banner" />
-
-      {featuredPost && (
-        <section style={{ marginBottom: '4rem' }}>
-          <PostCard post={featuredPost} horizontal={true} />
-        </section>
-      )}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 3fr) 1fr', gap: '3rem' }}>
-        <div>
-          <h2 style={{ fontSize: '2rem', marginBottom: '2rem', borderLeft: '4px solid #3b82f6', paddingLeft: '1.5rem' }}>
-            Latest Intelligence
-          </h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-            {recentPosts.map(post => <PostCard key={post.id} post={post} />)}
+    <div style={{ background: 'var(--muted)', minHeight: '100vh', paddingTop: '2rem' }}>
+      <div className="container">
+        <AdSlot type="banner" id="home-top-ad" />
+        
+        {allPosts.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '10rem 0', background: 'white', borderRadius: '12px', border: '1px solid var(--border)' }}>
+            <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 900 }}>NO INTELLIGENCE DETECTED</h1>
+            <p style={{ color: '#64748b', marginBottom: '2rem', fontSize: '1.2rem' }}>Our systems are ready to synchronize with the latest AI and IT market news.</p>
+            <form action={handleSync}>
+              <SyncButton />
+            </form>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Main News Section */}
+            <HeroGrid featuredPost={featuredPost} secondaryPosts={secondaryPosts} />
 
-        <aside>
-          <div style={{ position: 'sticky', top: '100px' }}>
-            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '1rem', border: '1px solid #e2e8f0' }}>
-              <h3>Subscribe</h3>
-              <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 1.5rem', color: '#64748b' }}>Get the Weekly Edge newsletter delivered to your inbox.</p>
-              <input type="text" placeholder="Email address" style={{ width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #cbd5e1', marginBottom: '1rem' }} />
-              <button className="btn btn-primary" style={{ width: '100%' }}>Join 15k+ Readers</button>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '3rem', marginTop: '4rem' }}>
+              {/* Main Feed */}
+              <div>
+                <div className="section-title">
+                  <h2>Top Intelligence</h2>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2rem' }}>
+                  {remainingPosts.map(post => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+
+                <div style={{ marginTop: '4rem' }}>
+                  <AdSlot type="banner" id="home-mid-ad" />
+                </div>
+              </div>
+
+              {/* Sidebar */}
+              <Sidebar />
             </div>
-            <AdSlot type="sidebar" id="sidebar-home" />
-          </div>
-        </aside>
+          </>
+        )}
       </div>
-
-      <AdSlot type="footer" id="footer-banner" />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { prisma } from '@/lib/db-prod';
+import { prisma } from '@/lib/prisma-db';
 
 export async function generateMetadata() {
-  const siteName = 'FutureEdge Insights';
-  const description = 'Deep dives into AI, future tech, and digital evolution.';
+  const siteName = 'PulseEdge Intelligence';
+  const description = 'Real-time AI market updates, IT job trends, and industry intelligence.';
   
   return {
     title: {
@@ -13,11 +13,11 @@ export async function generateMetadata() {
       template: `%s | ${siteName}`
     },
     description,
-    metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://pulseedge-intel.vercel.app'),
     openGraph: {
       title: siteName,
       description,
-      url: 'http://localhost:3000',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://pulseedge-intel.vercel.app',
       siteName,
       locale: 'en_US',
       type: 'website',
@@ -38,8 +38,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* AdSense Comment: Paste your auto-ads script here */}
-        {/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXX" crossorigin="anonymous"></script> */}
+        {/* AdSense Official Script */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXX" crossOrigin="anonymous"></script>
       </head>
       <body>
         <Header />

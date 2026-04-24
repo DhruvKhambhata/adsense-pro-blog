@@ -1,68 +1,47 @@
 import Link from 'next/link';
-import { Clock, ArrowRight } from 'lucide-react';
 
-export default function PostCard({ post, horizontal = false }) {
+export default function PostCard({ post }) {
   return (
-    <div style={{
-      display: horizontal ? 'flex' : 'block',
-      gap: '2rem',
-      background: '#fff',
-      border: '1px solid #f1f5f9',
-      borderRadius: '1.25rem',
-      overflow: 'hidden',
-      transition: 'all 0.3s ease',
-      cursor: 'pointer',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-    }} className="post-card">
-      <div style={{ 
-        width: horizontal ? '40%' : '100%', 
-        aspectRatio: '16/9', 
-        overflow: 'hidden',
-        background: '#f1f5f9'
-      }}>
-        <img 
-          src={post.featuredImage || `https://api.dicebear.com/7.x/shapes/svg?seed=${post.slug}`} 
-          alt={post.title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
+    <div className="post-card">
+      <Link href={`/blog/${post.slug}`}>
+        <div className="post-card-img-wrap">
+          <img 
+            src={post.featuredImage || `https://api.dicebear.com/7.x/shapes/svg?seed=${post.slug}`} 
+            alt={post.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+      </Link>
       
-      <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <span style={{ 
-            background: '#eff6ff', 
-            color: '#3b82f6', 
-            padding: '0.25rem 0.75rem', 
-            borderRadius: '2rem', 
-            fontSize: '0.75rem', 
-            fontWeight: 700, 
-            textTransform: 'uppercase' 
-          }}>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+          <span style={{ fontSize: '0.65rem', fontWeight: 900, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             {post.category?.name}
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: '#94a3b8' }}>
-            <Clock size={14} />
-            {post.readingTime} min read
-          </div>
+          <span style={{ fontSize: '0.65rem', color: 'var(--secondary)', fontWeight: 600 }}>
+            {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          </span>
         </div>
 
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.75rem', lineHeight: 1.3 }}>
-          <Link href={`/blog/${post.slug}`} style={{ color: '#0f172a' }}>{post.title}</Link>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 900, marginBottom: '0.75rem', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
+          <Link href={`/blog/${post.slug}`} style={{ color: 'var(--primary)' }}>{post.title}</Link>
         </h3>
         
-        <p style={{ color: '#64748b', fontSize: '0.925rem', lineHeight: 1.6, marginBottom: '1.5rem', flex: 1 }}>
+        <p style={{ color: 'var(--secondary)', fontSize: '0.9rem', lineHeight: 1.5, marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {post.excerpt}
         </p>
 
         <Link href={`/blog/${post.slug}`} style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '0.5rem', 
-          color: '#3b82f6', 
-          fontWeight: 700, 
-          fontSize: '0.875rem' 
+          fontSize: '0.75rem', 
+          fontWeight: 800, 
+          color: 'var(--primary)', 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.05em',
+          borderBottom: '2px solid var(--accent)',
+          paddingBottom: '2px',
+          display: 'inline-block'
         }}>
-          READ ARTICLE <ArrowRight size={16} />
+          Full Intel
         </Link>
       </div>
     </div>
